@@ -37,7 +37,15 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
+                  TaskCardWidget(
+                    title: "Get Started!",
+                    desc: "Hello User! Welcome to To_Do App, this is default task that you can edit or delete to start using the app.",
+                  ),
                   TaskCardWidget(),
+                  TaskCardWidget(),
+                  TaskCardWidget(),
+                  TaskCardWidget(),
+
                 ],
               ),
               Positioned(
@@ -52,8 +60,8 @@ class _HomePageState extends State<HomePage> {
                   ),
                   child: Image(
                       image: AssetImage(
-                    'assets/images/add_icon.png',
-                  )),
+                        'assets/images/add_icon.png',
+                      )),
                 ),
               )
             ],

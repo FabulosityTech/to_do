@@ -4,6 +4,10 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 
 class TaskCardWidget extends StatelessWidget {
+  final String? title;
+  final String? desc;
+  TaskCardWidget({this.title,this.desc});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -11,6 +15,9 @@ class TaskCardWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(
         vertical: 32.0,
         horizontal: 24.0,
+      ),
+      margin: EdgeInsets.only(
+        bottom: 20.0,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
@@ -20,7 +27,8 @@ class TaskCardWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Get Started! ",
+            //coalesce operator
+            title ?? "(Unnamed Title)",
             style: TextStyle(
               color: Color(0xFF211551),
               fontSize: 22.0,
@@ -32,7 +40,7 @@ class TaskCardWidget extends StatelessWidget {
               top: 10.0,
             ),
             child: Text(
-              "Hello User! Welcome to To_Do App, this is default task that you can edit or delete to start using the app.",
+              desc ?? "No Description Added.",
               style: TextStyle(
                 fontSize: 16.0,
                 color: Color(0xFF86829D),
