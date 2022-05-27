@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:to_do/database_helper.dart';
 import 'package:to_do/screens/taskpage.dart';
+import 'package:path/path.dart';
 import 'package:to_do/widgets.dart';
 
 class HomePage extends StatefulWidget {
@@ -12,6 +14,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  DatabaseHelper _dbHelper = DatabaseHelper();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,21 +43,22 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Expanded(
-                    child: ScrollConfiguration(
-                      behavior: NoGlowBehavior(),
-                      child: ListView(
-                        children: [
-                          TaskCardWidget(
-                            title: "Get Started!",
-                            desc:
-                                "Hello User! Welcome to To_Do App, this is default task that you can edit or delete to start using the app.",
+                    child: FutureBuilder(
+                      initialData: [],
+                      future: _dbHelper.getTasks(),
+                      builder: (context, snapshot) {
+                        return ScrollConfiguration(
+                          behavior: NoGlowBehavior(),
+                          child: ListView.builder(
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return TaskCardWidget(
+                                title: snapshot.data[index].title,
+                              );
+                            },
                           ),
-                          TaskCardWidget(),
-                          TaskCardWidget(),
-                          TaskCardWidget(),
-                          TaskCardWidget(),
-                        ],
-                      ),
+                        );
+                      },
                     ),
                   )
                 ],
@@ -62,13 +67,13 @@ class _HomePageState extends State<HomePage> {
                 bottom: 24.0,
                 right: 0.0,
                 child: GestureDetector(
-                  onTap: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Taskpage()
-                    ),
-                  );
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Taskpage()),
+                    ).then((value) {
+                      setState(() {});
+                    });
                   },
                   child: Container(
                     height: 60.0,
@@ -76,8 +81,8 @@ class _HomePageState extends State<HomePage> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [Color(0xFF7349FE), Color(0XFF643FDB)],
-                        begin: Alignment(0.0 , -1.0),
-                        end : Alignment(0.0, 1.0),
+                        begin: Alignment(0.0, -1.0),
+                        end: Alignment(0.0, 1.0),
                       ),
                       borderRadius: BorderRadiusDirectional.circular(20.0),
                     ),

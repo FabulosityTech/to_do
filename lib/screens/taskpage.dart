@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:to_do/database_helper.dart';
+import 'package:to_do/models/task.dart';
 import 'package:to_do/widgets.dart';
 
 class Taskpage extends StatefulWidget {
@@ -40,6 +42,16 @@ class _TaskpageState extends State<Taskpage> {
                       ),
                       Expanded(
                         child: TextField(
+                          onSubmitted: (value) async {
+                            if (value != "") {
+                              DatabaseHelper _dbHelper = DatabaseHelper();
+
+                              Task _newTask = Task(title: value);
+                              await _dbHelper.insertTask(_newTask);
+
+                              //print("New Task has been created.");
+                            }
+                          },
                           decoration: InputDecoration(
                             hintText: "Enter Text Title",
                             border: InputBorder.none,
@@ -86,12 +98,10 @@ class _TaskpageState extends State<Taskpage> {
             bottom: 24.0,
             right: 24.0,
             child: GestureDetector(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => Taskpage()
-                  ),
+                  MaterialPageRoute(builder: (context) => Taskpage()),
                 );
               },
               child: Container(
@@ -103,8 +113,8 @@ class _TaskpageState extends State<Taskpage> {
                 ),
                 child: Image(
                     image: AssetImage(
-                      'assets/images/delete_icon.png',
-                    )),
+                  'assets/images/delete_icon.png',
+                )),
               ),
             ),
           )
