@@ -1,6 +1,7 @@
+import 'dart:async';
+import 'package:flutter/widgets.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-
 import 'models/task.dart';
 
 class DatabaseHelper {
@@ -16,7 +17,7 @@ class DatabaseHelper {
       version: 1,
     );
   }
-}
+
 
   Future<void> insertTask(Task task) async {
     Database _db = await database();
@@ -33,3 +34,4 @@ class DatabaseHelper {
           description: taskMap[index]['description']);
     });
   }
+}

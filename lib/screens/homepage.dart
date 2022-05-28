@@ -1,10 +1,11 @@
 // ignore_for_file: prefer_const_constructors
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:to_do/database_helper.dart';
 import 'package:to_do/screens/taskpage.dart';
 import 'package:path/path.dart';
 import 'package:to_do/widgets.dart';
+
+import '../models/task.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -38,22 +39,21 @@ class _HomePageState extends State<HomePage> {
                     ),
                     child: Image(
                       image: AssetImage(
-                        'assets/images/logo.png',
+                        'assets/images/logo.png'),
                       ),
                     ),
-                  ),
                   Expanded(
-                    child: FutureBuilder(
+                    child: FutureBuilder<List<Task>>(
                       initialData: [],
                       future: _dbHelper.getTasks(),
                       builder: (context, snapshot) {
                         return ScrollConfiguration(
                           behavior: NoGlowBehavior(),
                           child: ListView.builder(
-                            itemCount: snapshot.data.length,
+                            itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               return TaskCardWidget(
-                                title: snapshot.data[index].title,
+                                title: snapshot.data![index].title,
                               );
                             },
                           ),
